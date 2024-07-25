@@ -14,7 +14,7 @@ function signUp(email, password,name,agent = 'none') {
         userConfirmed: result.userConfirmed,
         userAgent: result.user.client.userAgent,
       }
-        return resolve({ statusCode: 201, response: response });
+        return resolve({ statusCode: 200, response: response });
       });
     });
 }
@@ -25,7 +25,7 @@ function verify(email, code) {
       if (err) {
         return resolve({ statusCode: 422, response: err });
       }
-      return resolve({ statusCode: 400, response: result });
+      return resolve({ statusCode: 200, response: result });
     });
   });
 }
