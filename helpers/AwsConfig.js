@@ -95,9 +95,11 @@ async function listUsers(scope) {
 
   const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
   let results=[]
-  
+
   try {
     if(scope){
+      const includesAdmins = scope.includes("Admins");
+      if(includesAdmins) scope.push('users');
       results =  await Promise.all(scope.map(groupName => {
         return new Promise((resolve, reject) => {
           cognitoidentityserviceprovider.listUsersInGroup({ ...params, GroupName: groupName }, (err, data) => {

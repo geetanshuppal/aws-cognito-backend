@@ -61,7 +61,6 @@ function signIn(email, password) {
 
 function getUserList(token) {
   return new Promise((resolve) => {
-    console.log(token);
     if(!token)
       resolve({ statusCode: 400, response: 'TOKEN MISSING' });
     const scope = jwt_decode(token)['cognito:groups'];
