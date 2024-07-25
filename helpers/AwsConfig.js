@@ -115,6 +115,25 @@ async function listUsers(scope) {
   }
 }
 
+
+async function addUserToGroup(params) {
+  AWS.config.update({
+    region: process.env.AWS_COGNITO_REGION,
+    accessKeyId: process.env.AWS_USER_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_USER_SECRET_KEY
+  });
+  const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
+  return new Promise((resolve, reject) => {
+    cognitoidentityserviceprovider.adminAddUserToGroup(params, (err, data) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve(data);
+    });
+  });
+}
+
+
 module.exports = {
   initAWS,
   getCognitoAttributeList,
@@ -124,4 +143,5 @@ module.exports = {
   getAuthDetails,
   decodeJWTToken,
   listUsers,
+  addUserToGroup,
 }

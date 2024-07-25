@@ -14,7 +14,18 @@ function signUp(email, password,name,agent = 'none') {
         userConfirmed: result.userConfirmed,
         userAgent: result.user.client.userAgent,
       }
-        return resolve({ statusCode: 200, response: response });
+      var params = {
+        GroupName: 'users',
+        UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
+        Username: result.user.username,
+      };
+      AwsConfig.addUserToGroup(params, function(err, data) {
+        if (err) 
+          console.log(err, err.stack); 
+        else     
+         console.log(data);
+      });
+      return resolve({ statusCode: 200, response: response });
       });
     });
 }
