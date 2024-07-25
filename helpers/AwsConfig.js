@@ -94,19 +94,21 @@ async function listUsers(scope) {
   });
 
   const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-  
+  let results=[]
   
   try {
-    const results = await Promise.all(scope.map(groupName => {
-      return new Promise((resolve, reject) => {
-        cognitoidentityserviceprovider.listUsersInGroup({ ...params, GroupName: groupName }, (err, data) => {
-          if (err) {
-            return reject(err);
-          }
-          resolve(formatUserData(data));
+    if(scope){
+      results =  await Promise.all(scope.map(groupName => {
+        return new Promise((resolve, reject) => {
+          cognitoidentityserviceprovider.listUsersInGroup({ ...params, GroupName: groupName }, (err, data) => {
+            if (err) {
+              reject(err);
+            }
+            resolve(formatUserData(data));
+          });
         });
-      });
-    }));
+      }));
+    }
     return results.flat();
   } catch (err) {
     throw err;
