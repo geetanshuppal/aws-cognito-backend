@@ -63,8 +63,8 @@ function decodeJWTToken(token) {
 }
 
 function formatUserData(apiResponse) {
-  console.log(apiResponse);
   const users = apiResponse.Users;
+  if (!users) return [];
   return users.map(user => {
       const userInfo = {
           Username: user.Username,
@@ -80,23 +80,6 @@ function formatUserData(apiResponse) {
   });
 }
 
-// function listUsers(scope) {
-//   const params = {
-//     UserPoolId: process.env.AWS_COGNITO_USER_POOL_ID,
-//     Limit: '10',
-//     GroupName: scope
-//   };
-//   AWS.config.update({ region: process.env.AWS_COGNITO_REGION, 'accessKeyId': process.env.AWS_ACCESS_KEY, 'secretAccessKey': process.env.AWS_SECRET_KEY });
-//   const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider();
-//   return new Promise((resolve, reject) => {
-//     cognitoidentityserviceprovider.listUsersInGroup(params, (err, data) => {
-//       if (err) {
-//         return reject(err);
-//       }
-//       resolve(formatUserData(data));
-//     });
-//   });
-// }
 
 async function listUsers(scope) {
   const params = {
